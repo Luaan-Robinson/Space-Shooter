@@ -19,7 +19,8 @@ x = 100
 
 # importing an image
 
-player_surf = pygame.image.load(join('images', 'player.png')).convert_alpha() # creates a dynamic filepath to the image
+player_surf = pygame.image.load(join('images', 'player.png')).convert_alpha() # creates a dynamic filepath to the spaceship image
+player_rect = player_surf.get_frect(topleft = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)) # creates rect and places center of rect at (0,0)
 star_surf = pygame.image.load(join('images', 'star.png')).convert_alpha()
 star_positions = [(randint(0, WINDOW_WIDTH), randint(0, WINDOW_HEIGHT)) for i in range(20)] 
 
@@ -34,9 +35,10 @@ while running:
     display_surface.fill('darkgray')
     for pos in star_positions:
         display_surface.blit(star_surf, pos) # draws the star surface at random positions on the display
-
-    x += 0.1
-    display_surface.blit(player_surf, (x,150)) # draws the surface onto the display at the specified position
+    if player_rect.right < WINDOW_WIDTH:
+        player_rect.left += 0.2
+    
+    display_surface.blit(player_surf, player_rect) # draws the surface onto the display at the specified position
     pygame.display.update() # updates the display to show any changes made to the game elements
            
 pygame.quit() # uninitializes all pygame modules and is required to clean up resources when the game is closed
